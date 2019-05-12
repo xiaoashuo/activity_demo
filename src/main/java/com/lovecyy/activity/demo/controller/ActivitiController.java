@@ -26,11 +26,7 @@ import java.io.InputStream;
 public class ActivitiController {
 
 
-    @ResponseBody
-    @RequestMapping(value = "/test")
-    public String test(){
-        return "SUCCESS";
-    }
+
     @GetMapping(value = "/editor/stencilset", produces = "application/json;charset=utf-8")
     @ResponseBody
     public String getStencilset() throws IOException

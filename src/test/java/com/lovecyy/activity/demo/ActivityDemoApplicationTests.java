@@ -88,7 +88,7 @@ public class ActivityDemoApplicationTests {
     // 根据流程定义启动流程实例----操作的数据表：act_ru_execution act_ru_task
     @Test
     public void testStartProcess(){
-        String processDefinitionId = "UserAuditProcess:2:504";
+        String processDefinitionId = "process:4:10014";
         //根据流程实例ID去启动流程
         ProcessInstance pInstance = pe.getRuntimeService().startProcessInstanceById(processDefinitionId);
         System.out.println(pInstance.getId());

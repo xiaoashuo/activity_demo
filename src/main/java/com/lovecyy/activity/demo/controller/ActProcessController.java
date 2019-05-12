@@ -96,4 +96,6 @@ public class ActProcessController {
     {
         return actProcessService.deleteProcessDefinitionByDeploymentIds(ids)? AjaxResult.success():AjaxResult.error();
     }
+
+
 }
