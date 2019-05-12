@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>流程文件添加</title>
+</head>
+<body>
+  <div>
+      <label class="col-sm-3 control-label">流程文件：</label>
+      <input class="form-control" id="file" name="file" type="file">
+  </div>
+<div>
+    <label class="col-sm-3 control-label">流程类别：</label>
+    <input class="form-control" id="category" name="category" type="input">
+</div>
+  <div>
+    <div onclick="uploadFile()">上传</div>
+  </div>
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>  <script>
+      var prefix =  "/activity/process";
+      function uploadFile() {
+          var formData = new FormData();
+          if($('#file')[0].files[0] == null) {
+              alert("请先选择文件路径");
+              return false;
+          }
+          formData.append('file', $('#file')[0].files[0]);
+          formData.append('category', document.getElementById("category").value);
+          $.ajax({
+              url: prefix + "/add",
+              type: 'post',
+              cache: false,
+              data: formData,
+              processData: false,
+              contentType: false,
+              dataType: "json",
+              success: function(result) {
+                console.log(result);
+              }
+          });
+      }
+  </script>
+</body>
+</html>

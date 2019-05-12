@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>流程管理</title>
+</head>
+<body>
+<table id="table_info">
+    <thead>
+    <th>流程编号</th>
+    <th>部署编号</th>
+    <th>流程名称</th>
+    <th>流程KEY</th>
+    <th>流程类别</th>
+    <th>流程版本</th>
+    <th>流程文件名称</th>
+    <th>流程图片名称</th>
+    <th>操作</th>
+    </thead>
+    <tbody id="tbody">
+
+    </tbody>
+</table>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    var  prefix="/activity/process";
+    var tbody=$("#tbody");
+    $(function () {
+       $.ajax({
+           url: prefix+"/list",
+           type: "POST",
+           dataType: "JSON" ,
+           success:function (data) {
+               console.log(data.rows)
+               $.each(data.rows,function (i,v) {
+                   var tbody_info="<tr>\n" +
+                       "           <td>"+v.processId+"</td>\n" +
+                       "           <td>"+v.deploymentId+"</td>\n" +
+                       "           <td>"+v.name+"</td>\n" +
+                       "           <td>"+v.key+"</td>\n" +
+                       "           <td>"+v.category+"</td>\n" +
+                       "           <td>"+v.version+"</td>\n" +
+                       "           <td><a href='/activity/process/resource/"+v.resourceName+"/"+v.deploymentId+"' target='_blank'>"+v.resourceName+"</a></td>\n" +
+                       "           <td><a href='/activity/process/resource/"+v.diagramResourceName+"/"+v.deploymentId+"' target='_blank'>"+v.diagramResourceName+"</a></td>\n" +
+                       "           <td><a href='javascript:;' onclick='covertToModel(\""+v.processId+"\")'>转换为模型</a></td>\n" +
+                       "           <td><a href='javascript:;' onclick='remove(\""+v.processId+"\")'>删除</a></td>\n" +
+                       "       </tr>";
+                   tbody.append(tbody_info)
+               })
+           },
+           error:function () {
+               alert("请求失败")
+           }
+       });
+
+
+    })
+    function covertToModel(processId) {
+       var isTrue=confirm("确定要将部署的流程转换为模型吗？");
+       if (isTrue){
+           var url = prefix + "/convertToModel/" + processId;
+           $.get(url);
+       }
+    }
+    function remove(ids) {
+        var isTrue=  confirm("你确定要删除?");
+        if (isTrue){
+            $.post(prefix+"/remove",{ids:ids},function (data) {
+                console.log(data)
+            })
+            return;
+        }
+        ;
+    }
+</script>
+</body>
+</html>

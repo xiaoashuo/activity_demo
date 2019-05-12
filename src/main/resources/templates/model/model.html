@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>模型列表</title>
+</head>
+<body>
+<table id="table_info">
+    <thead>
+       <th>模型id</th>
+       <th>模型标识</th>
+       <th>模型名称</th>
+       <th>版本号</th>
+       <th>创建时间</th>
+       <th>最后更新时间</th>
+       <th>操作</th>
+    </thead>
+    <tbody id="tbody">
+
+    </tbody>
+</table>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    var prefix = "/activity/model";
+    var tbody=$("#tbody");
+    $(function () {
+        $.ajax({
+            url: prefix+"/list",
+            type: "POST",
+            dataType: "JSON",
+            success:function (data) {
+               console.log(data)
+                $.each(data.rows,function (i,v) {
+                    var tbody_info="<tr>\n" +
+                        "           <td>"+v.id+"</td>\n" +
+                        "           <td>"+v.key+"</td>\n" +
+                        "           <td>"+v.name+"</td>\n" +
+                        "           <td>"+v.version+"</td>\n" +
+                        "           <td>"+v.createTime+"</td>\n" +
+                        "           <td>"+v.lastUpdateTime+"</td>\n" +
+                        "           <td><a href='#'  onclick='deploy("+v.id+")'>部署</a> " +
+                        "               <a href='javascript:;'  onclick='exportXml("+v.id+")'>导出</a> " +
+                        "               <a href='#'  onclick=''>编辑</a> " +
+                        "               <a href='#'  onclick='remove("+v.id+")'>删除</a> " +
+                        "               </td>\n" +
+                        "       </tr>";
+                    tbody.append(tbody_info);
+                });
+            },
+            error: function () {
+            alert("初始化数据失败")
+            }
+        });
+
+    })
+
+     function remove(ids) {
+       var isTrue=  confirm("你确定要删除?");
+           if (isTrue){
+               $.post(prefix+"/remove",{ids:ids},function (data) {
+                   console.log(data)
+               })
+              return;
+           }
+        ;
+     }
+
+    /**
+     * 部署模型
+     * @param id
+     */
+    function deploy(id) {
+       var isTrue= confirm("确认要部署该流程吗？");
+       if(isTrue){
+           var url = prefix + "/deploy/" + id;
+           $.get(url);
+       }
+    }
+
+    /**
+     * 导出
+     * @param id
+     */
+    function exportXml(id) {
+        window.open(prefix + "/export/" + id);
+    }
+</script>
+</body>
+</html>

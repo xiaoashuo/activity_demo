@@ -1,0 +1,24 @@
+#整合Activit
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update   # first：create table ，next :update table
+    database: MYSQL
+    #整合JPA
+    show-sql: true
+  activiti:
+    check-process-definitions: false
+  datasource:
+    url: jdbc:mysql://192.168.136.134:3306/activitydemo?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    testWhileIdle: true
+  security:
+    user:
+      name: user
+      password: 1234
