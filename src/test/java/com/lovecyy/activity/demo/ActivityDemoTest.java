@@ -44,11 +44,18 @@ public class ActivityDemoTest {
     HistoryService historyService;
 
     @Test
+    public  void test(){
+        System.out.println(this.getClass());
+    }
+    @Test
     public void testDeployProcessDef(){
+        InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("diagrams/UserBmp.bpmn");
         //获取流程定义与部署相关Service
         Deployment deployment =repositoryService
                 .createDeployment()     //创建一个部署对象
                 .name("helloworld入门程序")
+               // .addInputStream("bmd.bpmn",resourceAsStream)
+               // .addInputStream("bmd.png",resourceAsStream)
                 .addClasspathResource("diagrams/UserBmp.bpmn")//加载资源文件
                 .deploy();//完成部署
         System.out.println(deployment.getId());
@@ -86,6 +93,7 @@ public class ActivityDemoTest {
                 //`act_re_procdef`的key值
                 //使用流程定义的key启动实例，key对应bpmn文件中id的属性值，默认按照最新版本流程启动
                 .startProcessInstanceByKey("myProcess_1");
+
 
         System.out.println(processInstance.getId());
         System.out.println(processInstance.getProcessDefinitionId());
