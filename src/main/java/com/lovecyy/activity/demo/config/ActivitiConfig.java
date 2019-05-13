@@ -64,36 +64,41 @@ public class ActivitiConfig
     }
 
     // 八大接口
+    //管理流程定义(仓库服务类)
     @Bean
     public RepositoryService repositoryService(ProcessEngine processEngine)
     {
         return processEngine.getRepositoryService();
     }
 
+    //执行管理，包括启动、推进、删除流程实例等
     @Bean
     public RuntimeService runtimeService(ProcessEngine processEngine)
     {
         return processEngine.getRuntimeService();
     }
 
+    //任务管理
     @Bean
     public TaskService taskService(ProcessEngine processEngine)
     {
         return processEngine.getTaskService();
     }
-
+    //历史管理（执行完的数据的管理
     @Bean
     public HistoryService historyService(ProcessEngine processEngine)
     {
         return processEngine.getHistoryService();
     }
 
+    //可选服务，任务表单管理
     @Bean
     public FormService formService(ProcessEngine processEngine)
     {
         return processEngine.getFormService();
     }
 
+    //组织机构管理
     @Bean
     public IdentityService identityService(ProcessEngine processEngine)
     {
